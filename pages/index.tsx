@@ -11,7 +11,7 @@ export default function Home() {
   useEffect(() => {
     const getModels = async () => {
       try {
-        const response = await fetch("http://localhost:3000/api/models");
+        const response = await fetch("api/models");
         const data = await response.json();
         console.log(data);
       } catch (error) {
