@@ -238,13 +238,13 @@ const Main = ({
             onTouchStart={() =>
               SpeechRecognition.startListening({
                 continuous: true,
-                language: "hu",
+                language: lang,
               })
             }
             onMouseDown={() =>
               SpeechRecognition.startListening({
                 continuous: true,
-                language: "hu",
+                language: lang,
               })
             }
             onTouchEnd={SpeechRecognition.stopListening}
