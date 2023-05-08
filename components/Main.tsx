@@ -162,9 +162,9 @@ const Main = ({
                   <SiOpenai className='w-8 h-8 text-[#10a37f]' />
                 </div>
                 {lang === "en" ? (
-                  <p>I am thinking...</p>
+                  <p>I am thinking....</p>
                 ) : (
-                  <p>Gondolkozom...</p>
+                  <p>Gondolkozom....</p>
                 )}
               </div>
             </div>
