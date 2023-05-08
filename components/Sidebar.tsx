@@ -10,8 +10,6 @@ interface IProps {
 }
 
 const Sidebar = ({ titles, setValue, setCurrentTitle, setMessage }: IProps) => {
-  console.log(titles);
-
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   const createNewChat = () => {

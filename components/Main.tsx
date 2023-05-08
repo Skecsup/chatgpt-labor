@@ -95,7 +95,7 @@ const Main = ({
     try {
       const response = await fetch("api/hello", options);
       const data = await response.json();
-      console.log(data);
+
       if (data.error) {
         if (data.error.message === "The model: `gpt-4` does not exist") {
           setMessage({
@@ -116,7 +116,6 @@ const Main = ({
       console.error(error);
     }
   };
-  console.log(transcript);
 
   return (
     <div className='flex flex-col justify-center w-[90%] h-screen bg-slate-600 '>

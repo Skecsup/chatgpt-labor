@@ -13,7 +13,6 @@ export default function Home() {
       try {
         const response = await fetch("api/models");
         const data = await response.json();
-        console.log(data);
       } catch (error) {
         console.error(error);
       }
