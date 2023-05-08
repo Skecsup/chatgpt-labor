@@ -27,7 +27,7 @@ export default async function handler(
         req.body.mode !== ""
           ? [{ role: "system", content: req.body.mode }, ...req.body.message]
           : req.body.message,
-      max_tokens: 100,
+      max_tokens: 4096,
     }),
   };
   try {
