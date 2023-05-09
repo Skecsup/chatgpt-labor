@@ -1,4 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { SiOpenai } from "react-icons/si";
 import { FaUserAlt, FaMicrophone, FaMicrophoneSlash } from "react-icons/fa";
 import { BsSend } from "react-icons/bs";
@@ -27,6 +33,7 @@ const Main = ({
   message,
   setMessage,
 }: IProps) => {
+  const firstUpdate = useRef(true);
   const [isDisabled, setIsDisabled] = useState(true);
   const [chat, setChat] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(false);
@@ -69,7 +76,14 @@ const Main = ({
   }, [transcript]);
 
   useEffect(() => {
-    getMessages();
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    } else {
+      if (value.length > 0) {
+        getMessages();
+      }
+    }
   }, [value]);
 
   const currentchat = chat.filter((el) => el.title === currentTitle);
@@ -111,6 +125,11 @@ const Main = ({
         }
       } else {
         setMessage(data.choices[0].message);
+        let utterance = new SpeechSynthesisUtterance(
+          data.choices[0].message.content
+        );
+        utterance.lang = lang;
+        speechSynthesis.speak(utterance);
       }
     } catch (error) {
       console.error(error);
