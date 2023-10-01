@@ -137,7 +137,7 @@ const Main = ({
   };
 
   return (
-    <div className="flex flex-col justify-center w-[90%] h-screen bg-slate-700 ">
+    <div className="flex flex-col justify-center w-[90%] h-screen bg-slate-600 ">
       <div className="self-center">
         <h1 className="text-3xl font-black">GyulaGPT</h1>
       </div>
