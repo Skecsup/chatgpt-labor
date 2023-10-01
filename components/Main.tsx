@@ -137,12 +137,12 @@ const Main = ({
   };
 
   return (
-    <div className='flex flex-col justify-center w-[90%] h-screen bg-slate-600 '>
-      <div className='self-center'>
-        <h1 className='text-3xl font-black'>GyulaGPT</h1>
+    <div className="flex flex-col justify-center w-[90%] h-screen bg-slate-700 ">
+      <div className="self-center">
+        <h1 className="text-3xl font-black">GyulaGPT</h1>
       </div>
 
-      <div className=' overflow-auto h-[90%] flex flex-col items-center'>
+      <div className=" overflow-auto h-[90%] flex flex-col items-center">
         {loading ? (
           <>
             {currentchat.map((el, i) => {
@@ -153,12 +153,12 @@ const Main = ({
                   }`}
                   key={`para-${i}`}
                 >
-                  <div className='w-1/2 flex flex-row'>
-                    <div className='px-4'>
+                  <div className="w-1/2 flex flex-row">
+                    <div className="px-4">
                       {el.role === "assistant" ? (
-                        <SiOpenai className='w-8 h-8 text-[#10a37f]' />
+                        <SiOpenai className="w-8 h-8 text-[#10a37f]" />
                       ) : (
-                        <FaUserAlt className='w-8 h-8 text-[#a31034]' />
+                        <FaUserAlt className="w-8 h-8 text-[#a31034]" />
                       )}
                     </div>
                     <p>{el.content}</p>
@@ -167,18 +167,18 @@ const Main = ({
               );
             })}
 
-            <div className='py-4 flex flex-col items-center w-full bg-slate-600'>
-              <div className='w-1/2 flex flex-row'>
-                <div className='px-4'>
-                  <FaUserAlt className='w-8 h-8 text-[#a31034]' />
+            <div className="py-4 flex flex-col items-center w-full bg-slate-600">
+              <div className="w-1/2 flex flex-row">
+                <div className="px-4">
+                  <FaUserAlt className="w-8 h-8 text-[#a31034]" />
                 </div>
                 <p>{value}</p>
               </div>
             </div>
-            <div className='py-4 flex flex-col items-center w-full bg-slate-400'>
-              <div className='w-1/2 flex flex-row'>
-                <div className='px-4'>
-                  <SiOpenai className='w-8 h-8 text-[#10a37f]' />
+            <div className="py-4 flex flex-col items-center w-full bg-slate-400">
+              <div className="w-1/2 flex flex-row">
+                <div className="px-4">
+                  <SiOpenai className="w-8 h-8 text-[#10a37f]" />
                 </div>
                 {lang === "en" ? (
                   <p>I am thinking....</p>
@@ -197,11 +197,11 @@ const Main = ({
                 }`}
                 key={`para-${i}`}
               >
-                <div className='w-1/2 flex flex-row'>
-                  <div className='px-4'>
+                <div className="w-1/2 flex flex-row">
+                  <div className="px-4">
                     {el.role === "assistant" ? (
                       <SiOpenai
-                        className='w-8 h-8 text-[#10a37f] cursor-pointer'
+                        className="w-8 h-8 text-[#10a37f] cursor-pointer"
                         onClick={() => {
                           let utterance = new SpeechSynthesisUtterance(
                             el.content
@@ -212,7 +212,7 @@ const Main = ({
                       />
                     ) : (
                       <FaUserAlt
-                        className='w-8 h-8 text-[#a31034] cursor-pointer'
+                        className="w-8 h-8 text-[#a31034] cursor-pointer"
                         onClick={() => {
                           let utterance = new SpeechSynthesisUtterance(
                             el.content
@@ -230,11 +230,11 @@ const Main = ({
           })
         )}
       </div>
-      <div className='bg-slate-400 w-[500px] rounded-lg shadow-xl self-center flex flex-row justify-between m-2'>
+      <div className="bg-slate-400 w-[500px] rounded-lg shadow-xl self-center flex flex-row justify-between m-2">
         <input
-          className='w-96 px-4 py-1 bg-slate-400 rounded-lg focus:outline-none placeholder:text-slate-900/50'
-          type='text'
-          placeholder='Write here...'
+          className="w-96 px-4 py-1 bg-slate-400 rounded-lg focus:outline-none placeholder:text-slate-900/50"
+          type="text"
+          placeholder="Write here..."
           value={inputText}
           onChange={(e) => {
             setInputText(e.target.value);
@@ -252,7 +252,7 @@ const Main = ({
         />
         <div>
           <button
-            className='px-2'
+            className="px-2"
             onTouchStart={() =>
               SpeechRecognition.startListening({
                 continuous: true,
@@ -271,11 +271,11 @@ const Main = ({
             {listening ? (
               <FaMicrophone />
             ) : (
-              <FaMicrophoneSlash className='text-[#a31034]' />
+              <FaMicrophoneSlash className="text-[#a31034]" />
             )}
           </button>
           <button
-            className='py-4 pr-4 font-bold  disabled:text-black'
+            className="py-4 pr-4 font-bold  disabled:text-black"
             disabled={isDisabled}
             onClick={() => {
               setValue(inputText);
