@@ -22,12 +22,17 @@ export default async function handler(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      model: req.body.model || "gpt-3.5-turbo",
-      messages:
-        req.body.mode !== ""
-          ? [{ role: "system", content: req.body.mode }, ...req.body.message]
-          : req.body.message,
-      max_tokens: 20,
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "system",
+          content:
+            "Act as a sentiment analiser, and return nothing else only a json string that i can use with JSON.parse containing a word that discribes the text, a color in hex format and an emoji",
+        },
+        req.body.message,
+      ],
+
+      max_tokens: 200,
     }),
   };
   try {

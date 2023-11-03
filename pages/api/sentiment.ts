@@ -16,7 +16,7 @@ export default async function handler(
     },
     data: {
       language: "english",
-      text: "A love you so much that i would die for you",
+      text: "A hate you so much",
     },
   };
 

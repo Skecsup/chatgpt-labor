@@ -8,20 +8,8 @@ export default function Home() {
   const [currentTitle, setCurrentTitle] = useState<any>(null);
   const [message, setMessage] = useState<any>(null);
 
-  useEffect(() => {
-    const getModels = async () => {
-      try {
-        const response = await fetch("api/models");
-        const data = await response.json();
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    getModels();
-  }, []);
-
   return (
-    <div className='flex flex-row text-white'>
+    <div className="flex flex-row text-white">
       <Sidebar
         titles={titles}
         setValue={setValue}
