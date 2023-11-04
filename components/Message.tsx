@@ -1,6 +1,7 @@
 import React from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { SiOpenai } from "react-icons/si";
+import { parseString } from "../utils/find-code-in-text";
 
 const Message = ({ el, i, lang }: { el: any; i: number; lang: string }) => {
   return (
@@ -32,7 +33,7 @@ const Message = ({ el, i, lang }: { el: any; i: number; lang: string }) => {
             />
           )}
         </div>
-        <p>{el.content}</p>
+        {parseString(el.content)}
       </div>
     </div>
   );
