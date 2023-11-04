@@ -10,6 +10,7 @@ import { useAppContext } from "../context/appContext";
 import Input from "./Input";
 import Message from "./Message";
 import LoadingMessage from "./LoadingMessage";
+import SentimentPopUp from "./SentimentPopUp";
 
 interface IProps {
   setTitles: Dispatch<SetStateAction<string[]>>;
@@ -31,6 +32,7 @@ const Main = ({
   setMessage,
 }: IProps) => {
   const firstUpdate = useRef(true);
+
   const [isDisabled, setIsDisabled] = useState(true);
   const [chat, setChat] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(false);
@@ -158,7 +160,7 @@ const Main = ({
       } else {
         console.log(data.choices[0].message);
         console.log(JSON.parse(data.choices[0].message.content));
-        setSentiment(data.choices[0].message);
+        setSentiment(JSON.parse(data.choices[0].message.content));
       }
     } catch (error) {
       console.error(error);
@@ -170,7 +172,13 @@ const Main = ({
       <div className="self-center">
         <h1 className="text-3xl font-black">GyulaGPT</h1>
       </div>
-
+      {sentiment && (
+        <SentimentPopUp
+          word={sentiment.word}
+          color={sentiment.color}
+          emoji={sentiment.emoji}
+        />
+      )}
       <div className=" overflow-auto h-[90%] flex flex-col items-center">
         {loading ? (
           <>
