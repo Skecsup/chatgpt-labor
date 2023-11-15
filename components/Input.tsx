@@ -27,9 +27,9 @@ const Input = ({
   isDisabled,
 }: IProps) => {
   return (
-    <div className="bg-[#40414F] w-[500px] rounded-lg shadow-xl self-center flex flex-row justify-between m-2">
+    <div className="bg-[#40414F] rounded-lg shadow-xl self-center flex flex-row justify-between m-2">
       <input
-        className="w-96 px-4 py-1 bg-[#40414F] rounded-lg focus:outline-none placeholder:text-white/50"
+        className="px-4 flex flex-1 py-1 bg-[#40414F] rounded-lg focus:outline-none placeholder:text-white/50"
         type="text"
         placeholder="Write here..."
         value={inputText}
@@ -47,9 +47,8 @@ const Input = ({
           }
         }}
       />
-      <div>
+      <div className="flex flex-row justify-between">
         <button
-          className="px-2"
           onTouchStart={() =>
             SpeechRecognition.startListening({
               continuous: true,
@@ -72,7 +71,7 @@ const Input = ({
           )}
         </button>
         <button
-          className="py-4 pr-4 font-bold  disabled:text-black"
+          className="pl-1 pr-4 disabled:text-black"
           disabled={isDisabled}
           onClick={() => {
             setValue(inputText);

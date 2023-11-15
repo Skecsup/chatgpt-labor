@@ -168,7 +168,7 @@ const Main = ({
   };
 
   return (
-    <div className="flex flex-col justify-center w-[90%] h-screen bg-[#343641]">
+    <div className="p-4 md:p-0 flex flex-col justify-center flex-auto w-[90%] h-screen bg-[#343641]">
       <div className="self-center">
         <h1 className="text-3xl font-black">GyulaGPT</h1>
       </div>
@@ -179,7 +179,7 @@ const Main = ({
           emoji={sentiment.emoji}
         />
       )}
-      <div className=" overflow-auto h-[90%] flex flex-col items-center">
+      <div className="overflow-auto h-[90%] flex flex-col items-center">
         {loading ? (
           <>
             {currentchat.map((el, i) => {
