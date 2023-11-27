@@ -38,7 +38,8 @@ const Main = ({
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState("");
   const [sentiment, setSentiment] = useState<any>(null);
-  const { lang, model, secretKey, mode } = useAppContext();
+  const { lang, model, secretKey, mode, setGlobalSentiment, globalSentiment } =
+    useAppContext();
 
   const {
     transcript,
@@ -48,6 +49,11 @@ const Main = ({
   } = useSpeechRecognition();
 
   const isServer = typeof window === "undefined";
+
+  const averageSentiment =
+    globalSentiment.reduce((accumulator, currentValue) => {
+      return accumulator + currentValue;
+    }, 0) / globalSentiment.length;
 
   if (!browserSupportsSpeechRecognition && !isServer) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -84,8 +90,9 @@ const Main = ({
       return;
     } else {
       if (value.length > 0) {
-        getSentiment();
         getMessages();
+        getSentimentFromAPI();
+        getSentiment();
       }
     }
   }, [value]);
@@ -167,10 +174,47 @@ const Main = ({
     }
   };
 
+  const getSentimentFromAPI = async () => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        message: { role: "user", content: value },
+        secretKey: secretKey,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+    try {
+      const response = await fetch("api/sentiment", options);
+      const data = await response.json();
+
+      console.log(data);
+      console.log(data.aggregate_sentiment.compound);
+      setGlobalSentiment((pre) => [...pre, data.aggregate_sentiment.compound]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="p-4 md:p-0 flex flex-col justify-center flex-auto w-[90%] h-screen bg-[#343641]">
-      <div className="self-center">
-        <h1 className="text-3xl font-black">GyulaGPT</h1>
+      <div className="self-center border-b border-b-white w-full p-2 ">
+        <div className="flex flex-col items-center gap-2">
+          <h1>Your current sentiment</h1>
+          <div className="grid place-content-center rounded-full w-40 h-6 bg-gradient-to-r from-red-500 via-yellow-300 to-green-500">
+            <div
+              className={`shadow-md bg-white h-4 w-4 rounded-full transition-transform ease-in-out duration-300`}
+              style={{
+                translate: averageSentiment * 67,
+                transitionProperty: "translate",
+                transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
+                transitionDuration: "500",
+              }}
+            />
+          </div>
+          <h1 className="text-3xl font-black">GyulaGPT</h1>
+        </div>
       </div>
       {sentiment && (
         <SentimentPopUp

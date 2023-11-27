@@ -26,6 +26,8 @@ interface IContext {
   setActiveMode: (c: { chess: boolean; pro: boolean; child: boolean }) => void;
   setActiveModel: (c: { gpt4: boolean; gpt35: boolean }) => void;
   setActiveLang: (c: { en: boolean; hu: boolean }) => void;
+  globalSentiment: number[];
+  setGlobalSentiment: React.Dispatch<React.SetStateAction<number[]>>;
 }
 
 const AppContext = createContext<IContext>({
@@ -47,6 +49,8 @@ const AppContext = createContext<IContext>({
   setActiveMode: () => {},
   setActiveModel: () => {},
   setActiveLang: () => {},
+  globalSentiment: [],
+  setGlobalSentiment: () => {},
 });
 
 interface MyProps {
@@ -65,7 +69,7 @@ const AppProvider = ({ children }: MyProps) => {
   });
   const [activeModel, setActiveModel] = useState({ gpt4: false, gpt35: false });
   const [activeLang, setActiveLang] = useState({ en: false, hu: false });
-
+  const [globalSentiment, setGlobalSentiment] = useState<number[]>([]);
   const context = {
     mode,
     setMode,
@@ -81,6 +85,8 @@ const AppProvider = ({ children }: MyProps) => {
     setActiveModel,
     activeLang,
     setActiveLang,
+    globalSentiment,
+    setGlobalSentiment,
   };
 
   return <AppContext.Provider value={context}>{children}</AppContext.Provider>;

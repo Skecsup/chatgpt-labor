@@ -9,10 +9,6 @@ const SentimentPopUp = ({
   color: string;
   emoji: string;
 }) => {
-  console.log(word);
-  console.log(color);
-  console.log(emoji);
-
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {

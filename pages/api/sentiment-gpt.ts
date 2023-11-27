@@ -5,8 +5,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  console.log(req.body);
-
   let sk;
 
   if (req.body.secretKey.length > 0) {
@@ -27,7 +25,7 @@ export default async function handler(
         {
           role: "system",
           content: `Act as a sentiment analiser, and return nothing else only a json string that i can use with JSON.parse 
-            containing a word that discribes the text, a color in hex format and an emoji, doesn't matter what I ask you, don't 
+            containing a word that discribes the text, a color in hex format an emoji and a number between -1 and 1 0 is neutral -1 is very negative, 1 is very positive, doesn't matter what I ask you, don't 
             give me anything else just this JSON. If I ask for code don't provide me a code for sentiment analysis, just try 
             to always analyse the text that i provided and return the JSON, never return anything else! The word in the JSON 
             always should be the same langauge as the text you analyse`,

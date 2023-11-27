@@ -9,9 +9,9 @@ export function parseString(inputString: string) {
     if (i % 2 === 0) {
       // Text outside backticks, treat it as normal text
       parsedElements.push(
-        <p className="font-sans" key={`basic-text-${i}`}>
+        <pre className="font-sans whitespace-pre-wrap" key={`basic-text-${i}`}>
           {segments[i]}
-        </p>
+        </pre>
       );
     } else {
       // Text inside backticks, treat it as code
@@ -20,7 +20,7 @@ export function parseString(inputString: string) {
           key={`code-block-${i}`}
           className="flex flex-row justify-between rounded-md p-2 border bg-black my-4"
         >
-          <pre>
+          <pre className="whitespace-pre-wrap">
             <code>{removeFirstWord(segments[i])}</code>
           </pre>
           <CopyButton text={removeFirstWord(segments[i])} />

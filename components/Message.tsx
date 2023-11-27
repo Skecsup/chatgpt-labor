@@ -11,7 +11,7 @@ const Message = ({ el, i, lang }: { el: any; i: number; lang: string }) => {
       }`}
       key={`para-${i}`}
     >
-      <div className="w-1/2 flex flex-row ">
+      <div className="w-full sm:w-5/6 md:w-3/4 lg:w-1/2 flex flex-row ">
         <div className="px-4">
           {el.role === "assistant" ? (
             <SiOpenai
