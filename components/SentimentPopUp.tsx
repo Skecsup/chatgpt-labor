@@ -1,18 +1,10 @@
 import { useState, useEffect } from "react";
 
-const SentimentPopUp = ({
-  word,
-  color,
-  emoji,
-}: {
-  word: string;
-  color: string;
-  emoji: string;
-}) => {
+const SentimentPopUp = ({ sentimentMessage }: { sentimentMessage: any }) => {
   const [isVisible, setIsVisible] = useState(true);
 
   useEffect(() => {
-    if (word || color || emoji) {
+    if (sentimentMessage) {
       setIsVisible(true);
 
       const timeout = setTimeout(() => {
@@ -21,24 +13,15 @@ const SentimentPopUp = ({
 
       return () => clearTimeout(timeout);
     }
-  }, [word, color, emoji]);
+  }, [sentimentMessage]);
 
   return (
     <div
-      style={{ backgroundColor: color }}
       className={`${
         isVisible ? "opacity-100" : "opacity-0"
-      } fixed top-2 right-2 p-4 m-4 rounded shadow-lg transition-opacity`}
+      } fixed top-2 right-2 p-4 m-4 rounded shadow-lg transition-opacity bg-green-400`}
     >
-      <p
-        style={{
-          WebkitTextStrokeWidth: 1,
-          WebkitTextStrokeColor: "black",
-        }}
-        className="text-white text-4xl"
-      >
-        {word.toLocaleUpperCase()} {emoji}
-      </p>
+      <p className="text-white text-xl">{sentimentMessage}</p>
     </div>
   );
 };

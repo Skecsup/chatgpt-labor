@@ -24,11 +24,10 @@ export default async function handler(
       messages: [
         {
           role: "system",
-          content: `Act as a sentiment analiser, and return nothing else only a json string that i can use with JSON.parse 
-            containing a word that discribes the text, a color in hex format an emoji and a number between -1 and 1 0 is neutral -1 is very negative, 1 is very positive, doesn't matter what I ask you, don't 
-            give me anything else just this JSON. If I ask for code don't provide me a code for sentiment analysis, just try 
-            to always analyse the text that i provided and return the JSON, never return anything else! The word in the JSON 
-            always should be the same langauge as the text you analyse`,
+          content: `give some advice, dont ask to share more just try to give same advice a recent 
+          experience or feeling that has been affecting your mood. You will be given a number  from -1 to 1, where -1 
+          is very negative 0 is neutral and 1 is very positive, indicate the sentiment of your experience, 
+          in 1-2 short sentences. or if you get the prompt "Inactive for 10 minutes" ask about the user that he is here or not`,
         },
         req.body.message,
       ],

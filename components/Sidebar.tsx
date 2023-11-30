@@ -35,7 +35,7 @@ const Sidebar = ({ titles, setValue, setCurrentTitle, setMessage }: IProps) => {
         )}
       </div>
       <div
-        className={`absolute w-[150px] h-screen bg-[#202123]/50 ${
+        className={`absolute w-[160px] h-screen bg-[#202123] ${
           isSidebarOpen ? "flex " : "hidden "
         } flex-col justify-between items-center`}
       >

@@ -10,6 +10,9 @@ import { useAppContext } from "../context/appContext";
 import Input from "./Input";
 import Message from "./Message";
 import LoadingMessage from "./LoadingMessage";
+
+import { calculateExponentialMovingAverage } from "../utils/calculate-exponential-moving-average";
+import useInactivityTimer from "../hooks/useInactivityTimer";
 import SentimentPopUp from "./SentimentPopUp";
 
 interface IProps {
@@ -37,9 +40,15 @@ const Main = ({
   const [chat, setChat] = useState<Array<any>>([]);
   const [loading, setLoading] = useState(false);
   const [inputText, setInputText] = useState("");
-  const [sentiment, setSentiment] = useState<any>(null);
+
   const { lang, model, secretKey, mode, setGlobalSentiment, globalSentiment } =
     useAppContext();
+
+  const sentimentMessage = useInactivityTimer(
+    60000,
+    secretKey,
+    calculateExponentialMovingAverage(globalSentiment)
+  );
 
   const {
     transcript,
@@ -49,11 +58,6 @@ const Main = ({
   } = useSpeechRecognition();
 
   const isServer = typeof window === "undefined";
-
-  const averageSentiment =
-    globalSentiment.reduce((accumulator, currentValue) => {
-      return accumulator + currentValue;
-    }, 0) / globalSentiment.length;
 
   if (!browserSupportsSpeechRecognition && !isServer) {
     return <span>Browser doesn't support speech recognition.</span>;
@@ -92,7 +96,6 @@ const Main = ({
       if (value.length > 0) {
         getMessages();
         getSentimentFromAPI();
-        getSentiment();
       }
     }
   }, [value]);
@@ -147,33 +150,6 @@ const Main = ({
     }
   };
 
-  const getSentiment = async () => {
-    const options = {
-      method: "POST",
-      body: JSON.stringify({
-        message: { role: "user", content: value },
-        secretKey: secretKey,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    };
-    try {
-      const response = await fetch("api/sentiment-gpt", options);
-      const data = await response.json();
-
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        console.log(data.choices[0].message);
-        console.log(JSON.parse(data.choices[0].message.content));
-        setSentiment(JSON.parse(data.choices[0].message.content));
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   const getSentimentFromAPI = async () => {
     const options = {
       method: "POST",
@@ -190,50 +166,48 @@ const Main = ({
       const data = await response.json();
 
       console.log(data);
-      console.log(data.aggregate_sentiment.compound);
+      console.log("compund: " + data.aggregate_sentiment.compound);
       setGlobalSentiment((pre) => [...pre, data.aggregate_sentiment.compound]);
     } catch (error) {
       console.error(error);
     }
   };
+  console.log("ema: " + calculateExponentialMovingAverage(globalSentiment));
+  console.log(sentimentMessage);
 
   return (
     <div className="p-4 md:p-0 flex flex-col justify-center flex-auto w-[90%] h-screen bg-[#343641]">
-      <div className="self-center border-b border-b-white w-full p-2 ">
+      <div className="self-center p-2 ">
         <div className="flex flex-col items-center gap-2">
           <h1>Your current sentiment</h1>
           <div className="grid place-content-center rounded-full w-40 h-6 bg-gradient-to-r from-red-500 via-yellow-300 to-green-500">
             <div
-              className={`shadow-md bg-white h-4 w-4 rounded-full transition-transform ease-in-out duration-300`}
+              className={`shadow-md bg-white h-4 w-4 rounded-full transition-transform ease-in-out duration-[500ms]`}
               style={{
-                translate: averageSentiment * 67,
+                translate:
+                  calculateExponentialMovingAverage(globalSentiment) * 67,
                 transitionProperty: "translate",
-                transitionTimingFunction: "cubic-bezier(0.4, 0, 0.2, 1)",
-                transitionDuration: "500",
               }}
             />
           </div>
           <h1 className="text-3xl font-black">GyulaGPT</h1>
         </div>
       </div>
-      {sentiment && (
-        <SentimentPopUp
-          word={sentiment.word}
-          color={sentiment.color}
-          emoji={sentiment.emoji}
-        />
+
+      {sentimentMessage && (
+        <SentimentPopUp sentimentMessage={sentimentMessage} />
       )}
       <div className="overflow-auto h-[90%] flex flex-col items-center">
         {loading ? (
           <>
             {currentchat.map((el, i) => {
-              return <Message el={el} i={i} lang={lang} />;
+              return <Message key={`user-message-${i}`} el={el} lang={lang} />;
             })}
             <LoadingMessage value={value} lang={lang} />
           </>
         ) : (
           currentchat.map((el, i) => {
-            return <Message el={el} i={i} lang={lang} />;
+            return <Message key={`ai-message-${i}`} el={el} lang={lang} />;
           })
         )}
       </div>

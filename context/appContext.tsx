@@ -49,7 +49,7 @@ const AppContext = createContext<IContext>({
   setActiveMode: () => {},
   setActiveModel: () => {},
   setActiveLang: () => {},
-  globalSentiment: [],
+  globalSentiment: [0],
   setGlobalSentiment: () => {},
 });
 
@@ -69,7 +69,7 @@ const AppProvider = ({ children }: MyProps) => {
   });
   const [activeModel, setActiveModel] = useState({ gpt4: false, gpt35: false });
   const [activeLang, setActiveLang] = useState({ en: false, hu: false });
-  const [globalSentiment, setGlobalSentiment] = useState<number[]>([]);
+  const [globalSentiment, setGlobalSentiment] = useState<number[]>([0]);
   const context = {
     mode,
     setMode,
