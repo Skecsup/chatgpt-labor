@@ -5,8 +5,6 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<any>
 ) {
-  console.log(req.body);
-
   let sk;
 
   if (req.body.secretKey.length > 0) {
@@ -37,7 +35,7 @@ export default async function handler(
     );
 
     const data = await response.json();
-    console.log(data);
+
     res.send(data);
   } catch (error) {
     console.error(error);

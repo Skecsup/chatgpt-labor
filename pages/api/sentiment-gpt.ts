@@ -24,9 +24,8 @@ export default async function handler(
       messages: [
         {
           role: "system",
-          content: `give some advice, dont ask to share more just try to give same advice a recent 
-          experience or feeling that has been affecting your mood. You will be given a number  from -1 to 1, where -1 
-          is very negative 0 is neutral and 1 is very positive, indicate the sentiment of your experience, 
+          content: `give some advice, dont ask to share more just try to give same advice based on the mood you are given
+          You will be given a number from -1 to 1, where -1 is very negative 0 is neutral and 1 is very positive,  
           in 1-2 short sentences. or if you get the prompt "Inactive for 10 minutes" ask about the user that he is here or not`,
         },
         req.body.message,
@@ -42,7 +41,7 @@ export default async function handler(
     );
 
     const data = await response.json();
-    console.log(data);
+
     res.send(data);
   } catch (error) {
     console.error(error);

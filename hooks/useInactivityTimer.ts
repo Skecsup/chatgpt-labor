@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
+import { calculateExponentialMovingAverage } from "../utils/calculate-exponential-moving-average";
 
 const useInactivityTimer = (
   timeoutDuration: number = 600000,
   secretKey: string,
-  value: number
+  sentiments: number[],
+  lang: string
 ): any => {
   const [inactive, setInactive] = useState(false);
   const [sentimentMessage, setSentimentMessage] = useState("");
-
+  const value = calculateExponentialMovingAverage(sentiments);
   const getSentiment = async (messageForBot: string) => {
-    console.log("get sentiment called");
-
     const options = {
       method: "POST",
       body: JSON.stringify({
@@ -28,8 +28,6 @@ const useInactivityTimer = (
       if (data.error) {
         console.log(data.error);
       } else {
-        console.log(data.choices[0].message);
-        console.log(data.choices[0].message.content);
         setSentimentMessage(data.choices[0].message.content);
       }
     } catch (error) {
@@ -44,28 +42,25 @@ const useInactivityTimer = (
       clearTimeout(inactivityTimer);
       inactivityTimer = setTimeout(() => {
         setInactive(true);
-        console.log("function called here");
-        getSentiment("Inactive for 10 minutes");
-        // Call your function here, e.g., handleInactivity()
-      }, timeoutDuration); // 10 minutes in milliseconds
+        getSentiment(
+          `Inactive for 10 minutes, answer in ${
+            lang === "hu" ? "hungarian" : "english"
+          }`
+        );
+      }, timeoutDuration);
     };
 
     const handleActivity = () => {
       if (inactive) {
         setInactive(false);
-        // You may want to reset the timer here as well
         resetTimer();
       }
       resetTimer();
     };
 
-    // Set up initial timer
-
-    // Set up event listeners for activity
     window.addEventListener("mousemove", handleActivity);
     window.addEventListener("keydown", handleActivity);
 
-    // Clean up event listeners on component unmount
     return () => {
       clearTimeout(inactivityTimer);
       window.removeEventListener("mousemove", handleActivity);
@@ -78,6 +73,26 @@ const useInactivityTimer = (
       getSentiment(value.toString());
     }
   }, [value]);
+
+  useEffect(() => {
+    console.log(sentiments[sentiments.length - 1]);
+    console.log(sentiments[sentiments.length - 2]);
+    console.log(sentiments[sentiments.length - 3]);
+
+    if (
+      (sentiments[sentiments.length - 2] > 0 &&
+        sentiments[sentiments.length - 1] < 0) ||
+      (sentiments[sentiments.length - 2] < 0 &&
+        sentiments[sentiments.length - 1] > 0)
+    ) {
+      getSentiment(
+        `sentiment of the previous chat${
+          sentiments[sentiments.length - 2]
+        } sentiment of the current chat${sentiments[sentiments.length - 1]}
+         answer in ${lang === "hu" ? "hungarian" : "english"}`
+      );
+    }
+  }, [sentiments]);
 
   return sentimentMessage;
 };

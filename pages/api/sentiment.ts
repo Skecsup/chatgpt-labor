@@ -59,7 +59,6 @@ export default async function handler(
     };
     try {
       const response = await axios.request(options);
-      console.log(response.data);
       res.send(response.data);
     } catch (error) {
       console.error(error);

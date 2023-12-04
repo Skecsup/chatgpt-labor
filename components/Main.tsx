@@ -47,7 +47,8 @@ const Main = ({
   const sentimentMessage = useInactivityTimer(
     60000,
     secretKey,
-    calculateExponentialMovingAverage(globalSentiment)
+    globalSentiment,
+    lang
   );
 
   const {
@@ -164,16 +165,11 @@ const Main = ({
     try {
       const response = await fetch("api/sentiment", options);
       const data = await response.json();
-
-      console.log(data);
-      console.log("compund: " + data.aggregate_sentiment.compound);
       setGlobalSentiment((pre) => [...pre, data.aggregate_sentiment.compound]);
     } catch (error) {
       console.error(error);
     }
   };
-  console.log("ema: " + calculateExponentialMovingAverage(globalSentiment));
-  console.log(sentimentMessage);
 
   return (
     <div className="p-4 md:p-0 flex flex-col justify-center flex-auto w-[90%] h-screen bg-[#343641]">
