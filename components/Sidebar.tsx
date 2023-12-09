@@ -26,7 +26,7 @@ const Sidebar = ({ titles, setValue, setCurrentTitle, setMessage }: IProps) => {
     <div className="relative">
       <div
         onClick={() => setisSidebarOpen((pre) => !pre)}
-        className={`absolute top-[50%] ${isSidebarOpen ? "ml-40" : "ml-2"}`}
+        className={`absolute top-[50%] ${isSidebarOpen ? "ml-44" : "ml-1"}`}
       >
         {isSidebarOpen ? (
           <FaCaretLeft className="text-white/10 hover:text-white transition-colors ease-in-out duration-300" />
@@ -35,7 +35,7 @@ const Sidebar = ({ titles, setValue, setCurrentTitle, setMessage }: IProps) => {
         )}
       </div>
       <div
-        className={`absolute w-[160px] h-screen bg-[#202123] ${
+        className={`absolute w-[170px] h-screen bg-[#202123] ${
           isSidebarOpen ? "flex " : "hidden "
         } flex-col justify-between items-center`}
       >
